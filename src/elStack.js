@@ -37,16 +37,63 @@
     function jConstruct(ele, options){
 
         var config = $.extend(true, $.fn[myName].defaults, options);
-        this.target = ele;
+        var target = ele;
 
-        if(config.target !== false) this.target = $(config.target);
+        if(config.target !== false) target = $(config.target);
+
+        var clone, container;
 
         var init = function(){
-            //
+            clone = $(target).clone();
+            //remove data attribute from target
+            $(clone).removeAttr('data-elstack');
+            $(clone).css('position', 'absolute');
+            $(clone).css('z-index', (parseInt(config.repeat)+1));
+            $(clone).css('top', config.offset.top*(parseInt(config.repeat)+1));
+            $(clone).css('left', config.offset.left*(parseInt(config.repeat)+1));
+            //crate container
+            createStack();
+        };
+
+        var createStack = function(){
+            container = document.createElement('div');
+            $(container).addClass(config.class);
+            $(container).css('position', 'relative');
+            $(container).css('height', $(target).height()+(config.offset.top*(parseInt(config.repeat)+1)));
+            $(container).css('width', $(target).width()+(config.offset.left*(parseInt(config.repeat)+1)));
+            createStackElements();
+        };
+
+        var createStackElements = function(){
+            for(var i=0; i < config.repeat; i++){
+                var stackElement = $(clone).clone().html('');
+                $(stackElement).addClass('elstack-item');
+                $(stackElement).css('position', 'absolute');
+                $(stackElement).css('z-index', (i+1));
+                $(stackElement).css('top', config.offset.top*(i+1));
+                $(stackElement).css('left', config.offset.left*(i+1));
+                $(stackElement).appendTo(container);
+            }
+        };
+
+        var resizeStackItems = function(){
+            $('.elstack-item').css('height', $('.elstack-target-item').height());
+            $('.elstack-item').css('width', $('.elstack-target-item').width());
+        };
+
+        var publish = function(){
+            $(clone).appendTo(container);
+
+            $(clone).addClass('elstack-target-item');
+            //publish onto stage
+            $(target).replaceWith(container);
+            resizeStackItems();
         };
 
         //initialize plugin
         init();
+        //publish output
+        publish();
 
         return this;
     };
@@ -61,15 +108,21 @@
         target: false,
         repeat: 3,
         offset: {
-            top: '10px',
-            left: '10px',
-            right: '0px',
-            bottom: '0px'
-        }
+            top: 5,
+            left: 5,
+            right: 0,
+            bottom: 0
+        },
+        class: 'elStack-container'
     };
 
     $(document).ready(function(){
-        $('[data-elstack]').elStack();
+        $('[data-elstack]').each(function(index, value){
+            var tmp_elstack_html_ele = $(this);
+            $(tmp_elstack_html_ele).elStack({
+                repeat: tmp_elstack_html_ele.attr('data-elstack')
+            });
+        });
     });
 
 }(jQuery, window));

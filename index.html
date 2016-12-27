@@ -3,8 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Element Stack Demo</title>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="src/elStack.js"></script>
+
+    <style>
+        div{
+            min-height: 10px;
+            padding: 10px;
+            color: #ffffff;
+            border: solid 1px #ffffff;
+        }
+        .black{
+            background-color: #000;
+        }
+        .red{
+            background-color: red;
+        }
+        .blue{
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
-
+<div data-elstack="2" class="black">Stack 1</div>
+<div data-elstack="3" class="red">Stack 2</div>
+<div data-elstack="1" class="blue">Stack 3</div>
 </body>
 </html>
