@@ -3,3 +3,14 @@ This plugin helps you to show the group of elements. One of my project required 
 
 ## DEMO
 See usage and demo at https://farhanwazir.github.io/elstack
+
+## Installation
+For NodeJS users use below command
+```
+npm install elstack
+```
+
+For Bower users use below command
+```
+bower install elstack
+```

@@ -1,10 +1,10 @@
 {
   "name": "elstack",
-  "version": "1.0.0",
+  "version": "0.8.5",
   "description": "This plugin helps you to show the group of elements. One of my project required to show grouping of bootstrap panel. I tried to find on many forum but unfortunately no luck. So, i developed this plugin. Hope this will help you a lot.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Elements Stack\" && exit 1"
   },
   "repository": {
     "type": "git",
