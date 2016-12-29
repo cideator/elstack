@@ -6,11 +6,11 @@
  * Website: http://github.com/farhanwazir/elstack
  *
  ************ Objective ***********
- * It makes a group of HTML element in a stack.
- *
+ * To create a group of HTML element, to show a bundle.
  *
  ************ Description: ***********
- *
+ * It was a requirement for one of my project, so i have decided to development when no options i had
+ * found on internet.
  *
  ************ LICENSE ***********
  * The MIT License (MIT)
@@ -32,26 +32,26 @@
 
 ;(function($, window){
 
-    var myName = 'elStack';
+    var elStack = 'elStack';
 
     function jConstruct(ele, options){
 
-        var config = $.extend(true, $.fn[myName].defaults, options);
-        var target = ele;
+        var config = $.extend({}, $.fn[elStack].defaults, options);
+        var target = $(ele);
 
         if(config.target !== false) target = $(config.target);
 
         var clone, container;
 
+        var id = 'elstack-'+Math.floor((Math.random() * 999) + 1)+''+Math.floor(Math.random() * 9);
+
         var init = function(){
             clone = $(target).clone();
-            //remove data attribute from target
             $(clone).removeAttr('data-elstack');
-            $(clone).css('position', 'absolute');
-            $(clone).css('z-index', (parseInt(config.repeat)+1));
-            $(clone).css('top', config.offset.top*(parseInt(config.repeat)+1));
-            $(clone).css('left', config.offset.left*(parseInt(config.repeat)+1));
-            //crate container
+            $(clone).removeAttr('data-elstack-class');
+            $(clone).removeAttr('data-elstack-offset-top');
+            $(clone).removeAttr('data-elstack-offset-left');
+            /*crate container*/
             createStack();
         };
 
@@ -59,14 +59,13 @@
             container = document.createElement('div');
             $(container).addClass(config.class);
             $(container).css('position', 'relative');
-            $(container).css('height', $(target).height()+(config.offset.top*(parseInt(config.repeat)+1)));
-            $(container).css('width', $(target).width()+(config.offset.left*(parseInt(config.repeat)+1)));
+            $(container).attr('id', id);
             createStackElements();
         };
 
         var createStackElements = function(){
             for(var i=0; i < config.repeat; i++){
-                var stackElement = $(clone).clone().html('');
+                var stackElement = $(clone).clone();
                 $(stackElement).addClass('elstack-item');
                 $(stackElement).css('position', 'absolute');
                 $(stackElement).css('z-index', (i+1));
@@ -76,51 +75,72 @@
             }
         };
 
-        var resizeStackItems = function(){
-            $('.elstack-item').css('height', $('.elstack-target-item').height());
-            $('.elstack-item').css('width', $('.elstack-target-item').width());
+        var setCloneProperties = function(){
+            /*remove data attribute from target*/
+            $(clone).css('position', 'absolute');
+            $(clone).css('z-index', (parseInt(config.repeat)+1));
+            $(clone).css('top', config.offset.top*(parseInt(config.repeat)+1));
+            $(clone).css('left', config.offset.left*(parseInt(config.repeat)+1));
+            $(clone).addClass('elstack-target-item');
+        };
+
+        var resizeStackItems = function(target_item){
+            /*resize items*/
+            $('#'+id).children('.elstack-item').css('height', $('#'+id).children('.elstack-target-item').height());
+            $('#'+id).children('.elstack-item').css('width', $('#'+id).children('.elstack-target-item').width());
+            /*resize container*/
+            var container_offset_h = (parseInt(config.repeat)+1) * config.offset.top;
+            var container_offset_w = (parseInt(config.repeat)+1) * config.offset.left;
+            $('#'+id).css('min-height', $('#'+id).children('.elstack-target-item').height()+container_offset_h);
+            $('#'+id).css('min-width', $('#'+id).children('.elstack-target-item').width()+container_offset_w);
         };
 
         var publish = function(){
             $(clone).appendTo(container);
-
-            $(clone).addClass('elstack-target-item');
-            //publish onto stage
+            setCloneProperties();
+            /*publish onto stage*/
             $(target).replaceWith(container);
-            resizeStackItems();
+            resizeStackItems($(container).children('.elstack-target-item'));
         };
 
-        //initialize plugin
+        /*initialize plugin*/
         init();
-        //publish output
+        /*publish output*/
         publish();
 
         return this;
     };
 
-    $.fn[myName] = function ( options ) {
+    $.fn[elStack] = function ( options ) {
         return this.each(function () {
             new jConstruct(this, options);
         });
     };
 
-    $.fn[myName].defaults = {
+    $.fn[elStack].defaults = {
         target: false,
         repeat: 3,
         offset: {
-            top: 5,
-            left: 5,
-            right: 0,
-            bottom: 0
+            top: 3,
+            left: 3
         },
         class: 'elStack-container'
     };
 
     $(document).ready(function(){
-        $('[data-elstack]').each(function(index, value){
-            var tmp_elstack_html_ele = $(this);
-            $(tmp_elstack_html_ele).elStack({
-                repeat: tmp_elstack_html_ele.attr('data-elstack')
+        $('[data-elstack]').each(function(){
+            var repeat = (typeof $(this).attr('data-elstack') !== typeof undefined && $(this).attr('data-elstack') !== false)? $(this).attr('data-elstack') : $.fn[elStack].defaults.repeat;
+            var css_class = (typeof $(this).attr('data-elstack-class') !== typeof undefined && $(this).attr('data-elstack-class') !== false)? $(this).attr('data-elstack-class') : $.fn[elStack].defaults.class;
+            var offset_top = (typeof $(this).attr('data-elstack-offset-top') !== typeof undefined && $(this).attr('data-elstack-offset-top') !== false)? $(this).attr('data-elstack-offset-top') : $.fn[elStack].defaults.offset.top;
+            var offset_left = (typeof $(this).attr('data-elstack-offset-left') !== typeof undefined && $(this).attr('data-elstack-offset-left') !== false)? $(this).attr('data-elstack-offset-left') : $.fn[elStack].defaults.offset.left;
+            $(this).elStack({
+                repeat: repeat,
+                offset: {
+                    top: offset_top,
+                    left: offset_left
+                },
+                class: css_class
+
             });
         });
     });

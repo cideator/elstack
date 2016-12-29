@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Element Stack Demo</title>
-    <script
-            src="https://code.jquery.com/jquery-3.1.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <script src="src/elStack.js"></script>
 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
-        div{
-            min-height: 10px;
-            padding: 10px;
-            color: #ffffff;
-            border: solid 1px #ffffff;
-        }
+
         .black{
             background-color: #000;
         }
@@ -28,8 +28,68 @@
     </style>
 </head>
 <body>
-<div data-elstack="2" class="black">Stack 1</div>
-<div data-elstack="3" class="red">Stack 2</div>
-<div data-elstack="1" class="blue">Stack 3</div>
+<div class="container">
+    <div class="jumbotron">
+        <h1>elStack (Elements Stack) jQuery plugin</h1>
+        <p>This plugin helps you to show the group of elements. One of my project
+            required to show grouping of bootstrap panel. I tried to find on many forum but unfortunately no luck.
+            So, i developed this plugin. Hope this will help you a lot.</p>
+        <p style="text-align: center;"><a href="https://github.com/farhanwazir/elstack" class="btn btn-success btn-lg">
+            Download from GitHub</a> <a href="mailto:farhan.wazir@gmail.com" class="btn btn-warning btn-lg">
+            Send me suggestion!</a></p>
+    </div>
+
+    <div class="page-header">
+        <h1>Examples</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div data-elstack="10" class="panel panel-default panel-primary">
+                <div class="panel-heading">Grouped (10)</div>
+                <div class="panel-body">This example showing you to 10 elements are grouped in one.</div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <ul class="list-group" data-elstack="3" data-elstack-offset-top="5" data-elstack-offset-left="8">
+                <li class="list-group-item list-group-item-danger">You can use elStack plugin with any HTML element(s).</li>
+                <li class="list-group-item disabled">Data attribute help you to setup as you need.</li>
+                <li class="list-group-item list-group-item-info">You can also customize stack.</li>
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <img src="http://i.utdstc.com/icons/256/stack-android.png" class="img-thumbnail" data-elstack="2" data-elstack-offset-top="6" data-elstack-offset-left="15">
+        </div>
+    </div>
+    <div class="page-header">
+        <h1>Usage</h1>
+    </div>
+    <p>It is really easy to use, it is not necessary to learn javascript. Just use it with data attribute as illustrated
+    below:</p>
+    <pre>&lt;img src="source" class="img-thumbnail" alt="elStack image" data-elstack="2" data-elstack-offset-top="6" data-elstack-offset-left="15"&gt;</pre>
+
+    <div class="page-header">
+        <h1>Options</h1>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item"><strong>data-elstack</strong> - <small class="disabled">No of elements</small>
+            <span class="label label-primary">default: 3</span></li>
+        <li class="list-group-item"><strong>data-elstack-offset-top</strong> - <small
+                class="disabled">Distance from top in pixel
+        </small>
+            <span class="label label-primary">default: 3</span></li>
+        <li class="list-group-item"><strong>data-elstack-offset-left</strong> - <small
+                class="disabled">Distance from left in pixel
+        </small>
+            <span class="label label-primary">default: 3</span></li>
+        <li class="list-group-item"><strong>data-elstack-class</strong> - <small
+                class="disabled">Stack css class
+        </small>
+            <span class="label label-primary">default: elStack-container</span></li>
+    </ul>
+
+</div>
 </body>
 </html>
