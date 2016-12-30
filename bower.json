@@ -5,6 +5,9 @@
   "authors": [
     "Farhan Wazir"
   ],
+  "dependencies": {
+    "jquery": "^2.1.4"
+  },
   "license": "MIT",
   "keywords": [
     "stack",
